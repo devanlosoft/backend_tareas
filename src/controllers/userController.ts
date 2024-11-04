@@ -48,7 +48,8 @@ export const loginUser = async (req: IncomingMessage, res: ServerResponse) => {
 
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ token }));
+      const { password: userPassword, _id, ...userToFlutter } = user.toObject();
+      res.end(JSON.stringify({ token, user: userToFlutter }));
     } catch (error) {
       res.statusCode = 500;
       res.end(JSON.stringify({ error: 'Error al iniciar sesión' }));
