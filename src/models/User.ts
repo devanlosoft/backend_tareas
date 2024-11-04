@@ -11,9 +11,22 @@ export interface IUser extends Document {
 
 // Definimos el esquema de usuario
 const UserSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
 
 // Middleware de Mongoose: Encripta la contraseña antes de guardar

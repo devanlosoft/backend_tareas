@@ -4,10 +4,11 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import User, { IUser } from '../models/User';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
-
-const JWT_SECRET = 'supersecretkey'; // Cambia esto a una clave más segura y guárdala en variables de entorno
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET; // Asegúrate de que coincida con el secreto usado en `loginUser`
 
 export const loginUser = async (req: IncomingMessage, res: ServerResponse) => {
   let body = '';
@@ -44,6 +45,11 @@ export const loginUser = async (req: IncomingMessage, res: ServerResponse) => {
       }
 
       // Generar token JWT
+      if (!JWT_SECRET) {
+        res.statusCode = 500;
+        res.end(JSON.stringify({ error: 'JWT_SECRET no está definido' }));
+        return;
+      }
       const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
       res.statusCode = 200;

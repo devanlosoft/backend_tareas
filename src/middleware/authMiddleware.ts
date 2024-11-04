@@ -7,6 +7,7 @@ dotenv.config(); // Cargar variables de entorno
 
 const JWT_SECRET = process.env.JWT_SECRET; // Asegúrate de que coincida con el secreto usado en `loginUser`
 
+
 // Middleware para validar el token JWT
 export const authenticateToken = (req: IncomingMessage, res: ServerResponse, next: () => void) => {
   // Obtenemos el token del encabezado de autorización
